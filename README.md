@@ -2,7 +2,7 @@
 
 Quiz para memorizar o Evangelho de João, capítulo por capítulo. As perguntas que você ainda não acertou aparecem primeiro, e o progresso fica salvo no seu navegador.
 
-**Acesse:** https://SEU-USUARIO.github.io/quiz-biblico/
+**Acesse:** https://lucasfbastos.github.io/quiz-biblico/
 
 ## Como usar
 
