@@ -1,0 +1,604 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Memorizando João</title><meta name="description" content="Quiz para memorizar o Evangelho de João, capítulo por capítulo."><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#EDF0F3; --surface:#FFFFFF; --ink:#17212C; --muted:#5A6673; --line:#D5DCE3;
+  --gold:#B07A12; --gold-soft:#F6E9C9; --gold-ink:#6E4C0A;
+  --right:#2F7A48; --right-soft:#DCEFE2; --wrong:#B0402C; --wrong-soft:#F7DEDA;
+  --display:"DM Serif Display", Georgia, "Times New Roman", serif;
+  --body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0E141B; --surface:#17202A; --ink:#E5E9ED; --muted:#98A4B0; --line:#2A3542;
+    --gold:#E2B04E; --gold-soft:#3A2F17; --gold-ink:#F1CF86;
+    --right:#6CC08A; --right-soft:#18352A; --wrong:#EB8472; --wrong-soft:#3E211D;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0E141B; --surface:#17202A; --ink:#E5E9ED; --muted:#98A4B0; --line:#2A3542;
+  --gold:#E2B04E; --gold-soft:#3A2F17; --gold-ink:#F1CF86;
+  --right:#6CC08A; --right-soft:#18352A; --wrong:#EB8472; --wrong-soft:#3E211D;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;padding-inline:16px;padding-block:28px 48px}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+header.top{display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,7vw,52px);line-height:1.05;margin:0;text-wrap:balance}
+h1 em{color:var(--gold)}
+.lede{margin:0;color:var(--muted);max-width:58ch}
+h2{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:16px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.small{font-size:14px;color:var(--muted)}
+.linkish{background:none;border:0;padding:0;color:var(--gold);font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+@media (max-width:460px){.grid{grid-template-columns:repeat(7,1fr);gap:5px}}
+.ch{position:relative;aspect-ratio:1;max-width:100%;border:1.5px solid var(--line);border-radius:10px;background:var(--ground);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0;overflow:hidden}
+.ch .n{font-family:var(--display);font-size:22px;line-height:1;position:relative;z-index:1}
+.ch .fill{position:absolute;left:0;right:0;bottom:0;background:var(--gold-soft);transition:height .3s}
+.ch.on{border-color:var(--gold);box-shadow:inset 0 0 0 1.5px var(--gold)}
+.ch .p{font-family:var(--mono);font-size:10px;color:var(--muted);position:relative;z-index:1}
+@media (max-width:460px){.ch .n{font-size:17px}.ch .p{font-size:9px}}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:3px;border:1px solid var(--line)}
+.actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.btn{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:12px 16px;font-weight:600;text-align:left;display:flex;flex-direction:column;gap:2px}
+.btn small{font-weight:400;color:var(--muted);font-size:13px}
+.btn.primary{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.btn.primary small{color:var(--ground);opacity:.75}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+select{font:inherit;font-size:15px;padding:6px 10px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+.stats{display:flex;gap:24px;flex-wrap:wrap}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+
+/* quiz */
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:13px;background:var(--gold-soft);color:var(--gold-ink);padding:3px 10px;border-radius:999px}
+.bar{height:6px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);transition:width .3s}
+.question{font-family:var(--display);font-weight:400;font-size:clamp(22px,4.6vw,30px);line-height:1.25;margin:0;text-wrap:balance}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;transition:border-color .15s, background .15s}
+.opt:hover:not(:disabled){border-color:var(--gold)}
+.opt .k{flex:none;width:26px;height:26px;border-radius:7px;border:1.5px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--right);background:var(--right-soft)}
+.opt.right .k{border-color:var(--right);background:var(--right);color:var(--surface)}
+.opt.wrong{border-color:var(--wrong);background:var(--wrong-soft)}
+.opt.wrong .k{border-color:var(--wrong);background:var(--wrong);color:var(--surface)}
+.opt.dim{opacity:.55}
+.feedback{border-left:3px solid var(--gold);padding:4px 0 4px 14px;display:flex;flex-direction:column;gap:4px}
+.feedback .verdict{font-weight:700}
+.feedback .verdict.ok{color:var(--right)} .feedback .verdict.no{color:var(--wrong)}
+.ref{font-family:var(--mono);font-size:13px;color:var(--gold)}
+.note{margin:0;color:var(--ink)}
+.streak{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.review{display:flex;flex-direction:column;gap:12px;margin:0;padding:0;list-style:none}
+.review li{border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:2px}
+.review .a{color:var(--right);font-weight:600}
+.kbd{font-family:var(--mono);font-size:12px;color:var(--muted)}
+footer{font-size:13px;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">Evangelho segundo João · 21 capítulos</span>
+    <h1>Memorizando <em>João</em></h1>
+    <p class="lede">“Estes, porém, foram registrados para que creiais que Jesus é o Cristo, o Filho de Deus.” <span class="ref">Jo 20.31</span></p>
+  </header>
+
+  <!-- HOME -->
+  <section id="home" class="wrap" style="gap:24px">
+    <div class="panel">
+      <div class="row">
+        <h2>Escolha os capítulos</h2>
+        <div class="row" style="gap:14px">
+          <button class="linkish" id="selAll">Todos</button>
+          <button class="linkish" id="selNone">Nenhum</button>
+        </div>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--gold-soft)"></i>Preenchimento = perguntas já acertadas</span>
+        <span><i class="sw" style="border:2px solid var(--gold)"></i>Selecionado</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="row">
+        <h2>Jogar</h2>
+        <div class="row" style="gap:14px;justify-content:flex-start">
+          <label class="small" for="kind">Tipo
+            <select id="kind">
+              <option value="all">Todas as perguntas</option>
+              <option value="conteudo">Conteúdo</option>
+              <option value="cap">Em qual capítulo?</option>
+              <option value="evt">Qual evento está no capítulo?</option>
+            </select>
+          </label>
+          <label class="small" for="size">Por rodada
+            <select id="size">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="0">Todas</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="playSel">Capítulos selecionados<small id="selInfo"></small></button>
+        <button class="btn" id="playAll">Todo o evangelho<small>Mistura dos 21 capítulos</small></button>
+        <button class="btn" id="playEuSou">Os “Eu Sou” e os sinais<small>Declarações e milagres de Jesus</small></button>
+        <button class="btn" id="playWrong">Revisar erros<small id="wrongInfo"></small></button>
+      </div>
+      <p class="small" style="margin:0">As perguntas que você ainda não acertou aparecem primeiro. Use as teclas 1–4 para responder e Enter para avançar.</p>
+    </div>
+
+    <div class="panel">
+      <div class="row"><h2>Seu progresso</h2><button class="linkish" id="reset">Zerar progresso</button></div>
+      <div class="stats">
+        <div class="stat"><b id="stMastered">0</b><span>perguntas dominadas</span></div>
+        <div class="stat"><b id="stTotal">0</b><span>perguntas no banco</span></div>
+        <div class="stat"><b id="stBest">0</b><span>maior sequência</span></div>
+      </div>
+      <div id="resetConfirm" class="row" hidden>
+        <span class="small">Apagar todo o progresso salvo neste navegador?</span>
+        <div class="row" style="gap:14px"><button class="linkish" id="resetYes">Sim, apagar</button><button class="linkish" id="resetNo">Cancelar</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="panel" hidden>
+    <div class="qhead">
+      <span class="chip" id="qChap">Capítulo 1</span>
+      <span class="streak" id="qCount">1 / 10</span>
+    </div>
+    <div class="bar"><i id="qBar" style="width:0"></i></div>
+    <h2 class="question" id="qText"></h2>
+    <div class="opts" id="qOpts"></div>
+    <div class="feedback" id="qFeed" hidden>
+      <span class="verdict" id="qVerdict"></span>
+      <span class="ref" id="qRef"></span>
+      <p class="note" id="qNote"></p>
+    </div>
+    <div class="row">
+      <button class="linkish" id="quit">Sair da rodada</button>
+      <span class="streak" id="qStreak"></span>
+      <button class="btn primary" id="next" hidden>Próxima</button>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" class="panel" hidden>
+    <span class="eyebrow">Rodada concluída</span>
+    <h2 class="question" id="rTitle"></h2>
+    <p class="small" id="rSub" style="margin:0"></p>
+    <div class="actions">
+      <button class="btn primary" id="again">Jogar de novo<small>Mesma seleção</small></button>
+      <button class="btn" id="home2">Voltar ao início<small>Escolher capítulos</small></button>
+    </div>
+    <div id="rReviewWrap" hidden>
+      <h2 style="font-size:20px;margin-bottom:8px">Para revisar</h2>
+      <ul class="review" id="rReview"></ul>
+    </div>
+  </section>
+
+  <footer>Texto das citações baseado na Almeida Revista e Atualizada. Confira sempre na sua Bíblia.</footer>
+</div>
+
+<script>
+// [capítulo, referência, pergunta, resposta certa, [3 alternativas erradas], comentário, tag]
+const RAW = [
+[1,"1.1","“No princípio era o Verbo, e o Verbo estava com Deus, e o Verbo era…”","Deus",["a luz","a vida","o Cordeiro"],"João abre afirmando a plena divindade de Cristo, eterno e distinto do Pai."],
+[1,"1.3","Segundo o prólogo, o que foi feito sem o Verbo?","Nada do que foi feito",["Apenas os anjos","A luz","O homem"],"“Todas as coisas foram feitas por intermédio dele, e, sem ele, nada do que foi feito se fez.”"],
+[1,"1.12-13","Os que recebem a Cristo nasceram de quem?","De Deus",["Da vontade do homem","Do sangue","Da vontade da carne"],"“Os quais não nasceram do sangue, nem da vontade da carne, nem da vontade do homem, mas de Deus.”"],
+[1,"1.14","Complete: “E o Verbo se fez carne e…”","habitou entre nós",["subiu ao céu","venceu o mundo","falou aos profetas"],"A encarnação: “cheio de graça e de verdade, e vimos a sua glória”."],
+[1,"1.29","Como João Batista chamou Jesus ao vê-lo vindo?","O Cordeiro de Deus, que tira o pecado do mundo",["O Leão da tribo de Judá","O Filho de Davi","O Profeta que havia de vir"],"João aponta para o sacrifício substitutivo de Cristo."],
+[1,"1.40-42","Quem levou Simão Pedro até Jesus?","André, seu irmão",["Filipe","João Batista","Natanael"],"André encontrou primeiro o seu irmão e disse: “Achamos o Messias”."],
+[1,"1.42","Que nome Jesus deu a Simão?","Cefas (Pedro)",["Boanerges","Dídimo","Tadeu"],"Cefas, que quer dizer Pedro, “pedra”."],
+[1,"1.46","Quem perguntou: “De Nazaré pode sair alguma coisa boa?”","Natanael",["Nicodemos","Tomé","Pedro"],"Filipe respondeu: “Vem e vê”."],
+[1,"1.48","Onde Jesus disse ter visto Natanael antes de Filipe chamá-lo?","Debaixo da figueira",["Junto ao poço","No templo","À beira do mar"],"Natanael respondeu: “Mestre, tu és o Filho de Deus, tu és o Rei de Israel!”"],
+[2,"2.1-11","Onde Jesus realizou o seu primeiro sinal?","Em Caná da Galileia",["Em Betânia","Em Cafarnaum","Em Jerusalém"],"Transformou água em vinho numa festa de casamento.","sinal"],
+[2,"2.6","Quantas talhas de pedra havia na festa de casamento?","Seis",["Três","Sete","Doze"],"Eram talhas para a purificação dos judeus, com duas ou três metretas cada.","sinal"],
+[2,"2.11","Qual foi o resultado do primeiro sinal, segundo João?","Manifestou a sua glória e os discípulos creram nele",["O mestre-sala expulsou os convidados","Os fariseus o acusaram","Maria foi repreendida pelo povo"],"“Com este, deu Jesus princípio a seus sinais… e os seus discípulos creram nele.”"],
+[2,"2.19-21","“Destruí este santuário, e em três dias o reconstruirei.” A que Jesus se referia?","Ao santuário do seu corpo",["Ao templo de Herodes","À cidade de Jerusalém","À sinagoga de Cafarnaum"],"Depois da ressurreição, os discípulos se lembraram dessas palavras."],
+[2,"2.20","Segundo os judeus, em quantos anos o templo foi edificado?","46 anos",["40 anos","7 anos","70 anos"],"“Em quarenta e seis anos foi edificado este santuário, e tu, em três dias, o levantarás?”"],
+[3,"3.1-2","Quem veio a Jesus de noite?","Nicodemos, um fariseu",["José de Arimateia","Zaqueu","Gamaliel"],"Nicodemos era um dos principais dos judeus."],
+[3,"3.3","O que Jesus disse ser necessário para ver o reino de Deus?","Nascer de novo",["Guardar a lei","Ser filho de Abraão","Oferecer sacrifícios"],"O novo nascimento é obra soberana do Espírito, que “sopra onde quer” (3.8)."],
+[3,"3.14","A que evento do Antigo Testamento Jesus comparou a sua crucificação?","Moisés levantando a serpente no deserto",["A travessia do mar Vermelho","O sacrifício de Isaque","O maná no deserto"],"“Importa que o Filho do Homem seja levantado” (Nm 21)."],
+[3,"3.16","Complete: “Porque Deus amou ao mundo de tal maneira que deu o seu Filho unigênito, para que todo o que nele crê…”","não pereça, mas tenha a vida eterna",["seja livre da lei","receba o reino da terra","nunca mais tenha sede"],"O versículo mais conhecido do evangelho."],
+[3,"3.30","Quem disse: “Convém que ele cresça e que eu diminua”?","João Batista",["Nicodemos","Pedro","André"],"João se alegrava como o amigo do noivo."],
+[3,"3.36","Segundo João Batista, o que permanece sobre quem rejeita o Filho?","A ira de Deus",["A lei de Moisés","A dúvida","O julgamento dos homens"],"“Por isso, quem crê no Filho tem a vida eterna.”"],
+[4,"4.5-6","Onde Jesus conversou com a mulher samaritana?","No poço de Jacó, perto de Sicar",["No tanque de Siloé","No monte Gerizim","No mar da Galileia"],"Jesus, cansado da viagem, sentou-se junto à fonte por volta da hora sexta."],
+[4,"4.18","Quantos maridos a samaritana já havia tido?","Cinco",["Dois","Três","Sete"],"“E o que agora tens não é teu marido.”"],
+[4,"4.24","Complete: “Deus é espírito; e importa que os seus adoradores o adorem…”","em espírito e em verdade",["em Jerusalém","neste monte","com sacrifícios"],"A verdadeira adoração não depende de um lugar."],
+[4,"4.42","Como os samaritanos de Sicar chamaram Jesus?","O Salvador do mundo",["O Rei de Israel","O Filho de José","O novo Moisés"],"“Nós mesmos temos ouvido e sabemos que este é verdadeiramente o Salvador do mundo.”"],
+[4,"4.46-54","Qual foi o segundo sinal de Jesus na Galileia?","A cura do filho de um oficial do rei",["A cura de um leproso","A multiplicação dos pães","A cura da sogra de Pedro"],"Jesus curou à distância: “Vai, o teu filho vive”.","sinal"],
+[5,"5.2","Como se chamava o tanque de cinco pavilhões em Jerusalém?","Betesda",["Siloé","Cedrom","Getsêmani"],"Ficava junto à porta das ovelhas.","sinal"],
+[5,"5.5","Há quantos anos estava enfermo o homem curado em Betesda?","38 anos",["12 anos","18 anos","40 anos"],"Jesus lhe disse: “Levanta-te, toma o teu leito e anda”.","sinal"],
+[5,"5.16-18","Por que os judeus perseguiram Jesus após a cura em Betesda?","Curou no sábado e chamou Deus de seu próprio Pai",["Tocou num leproso","Entrou no templo sem purificação","Comeu com publicanos"],"Entenderam que ele se fazia igual a Deus."],
+[5,"5.39","Segundo Jesus, as Escrituras dão testemunho de quem?","Dele mesmo",["De Moisés","Dos profetas","De João Batista"],"“Examinais as Escrituras… e são elas mesmas que testificam de mim.”"],
+[6,"6.8-9","Quem apresentou o rapaz que tinha cinco pães e dois peixinhos?","André",["Filipe","Pedro","Judas Iscariotes"],"Os pães eram de cevada.","sinal"],
+[6,"6.13","Quantos cestos sobraram após a multiplicação dos pães?","Doze",["Sete","Cinco","Três"],"Cerca de cinco mil homens foram alimentados.","sinal"],
+[6,"6.19","Que sinal os discípulos viram no mar na noite após a multiplicação?","Jesus andando sobre o mar",["Uma luz no céu","Uma pesca milagrosa","Moisés e Elias"],"“Sou eu. Não temais!”","sinal"],
+[6,"6.35","Qual “Eu Sou” Jesus declarou em Cafarnaum?","“Eu sou o pão da vida”",["“Eu sou a porta”","“Eu sou a videira”","“Eu sou a luz do mundo”"],"“O que vem a mim jamais terá fome.”","eusou"],
+[6,"6.37","Complete: “Todo aquele que o Pai me dá, esse virá a mim; e o que vem a mim…”","de modo nenhum o lançarei fora",["terá de provar sua fé","será provado no fogo","herdará a terra"],"A certeza de que os eleitos dados pelo Pai virão e serão guardados."],
+[6,"6.44","Segundo Jesus, ninguém pode vir a ele se…","o Pai que o enviou não o trouxer",["não guardar os mandamentos","não for batizado","não vender tudo o que tem"],"A graça eficaz: “e eu o ressuscitarei no último dia”."],
+[6,"6.68","Quem disse: “Senhor, para quem iremos? Tu tens as palavras da vida eterna”?","Simão Pedro",["João","Tomé","André"],"Dito quando muitos discípulos se retiraram."],
+[7,"7.2","Em qual festa Jesus subiu a Jerusalém no capítulo 7?","Festa dos Tabernáculos",["Páscoa","Pentecostes","Festa da Dedicação"],"Seus irmãos o pressionaram a se mostrar ao mundo."],
+[7,"7.5","Qual era a atitude dos irmãos de Jesus naquele tempo?","Não criam nele",["Pregavam com ele","Queriam fazê-lo rei","Eram fariseus"],"“Pois nem mesmo os seus irmãos criam nele.”"],
+[7,"7.37-39","A que se referiam os “rios de água viva” anunciados por Jesus?","Ao Espírito que haviam de receber os que nele cressem",["Ao batismo de João","Ao rio Jordão","À água do tanque de Siloé"],"Dito no último e grande dia da festa."],
+[7,"7.50-51","Quem perguntou: “Acaso a nossa lei julga um homem sem primeiro ouvi-lo?”","Nicodemos",["Gamaliel","José de Arimateia","Caifás"],"Nicodemos defendeu Jesus diante dos fariseus."],
+[8,"8.7","O que Jesus disse aos acusadores da mulher surpreendida em adultério?","“Aquele que dentre vós estiver sem pecado seja o primeiro que lhe atire pedra”",["“Levai-a ao sumo sacerdote”","“Cumpra-se a lei de Moisés”","“Ela já foi perdoada pelos sacerdotes”"],"Depois disse a ela: “Vai e não peques mais”. (Trecho de 7.53–8.11)"],
+[8,"8.12","Qual “Eu Sou” Jesus declarou no capítulo 8?","“Eu sou a luz do mundo”",["“Eu sou o bom pastor”","“Eu sou o pão da vida”","“Eu sou a ressurreição”"],"“Quem me segue não andará nas trevas.”","eusou"],
+[8,"8.32","Complete: “E conhecereis a verdade, e a verdade…”","vos libertará",["vos julgará","vos consolará","permanecerá"],"Dito aos judeus que haviam crido nele: “Se vós permanecerdes na minha palavra…”."],
+[8,"8.44","De quem Jesus disse que é “mentiroso e pai da mentira”?","Do diabo",["Dos fariseus","De Judas","De Pilatos"],"“Ele foi homicida desde o princípio.”"],
+[8,"8.58","Complete: “Em verdade, em verdade eu vos digo: antes que Abraão existisse…”","EU SOU",["eu fui enviado","o Pai me amou","eu fui profetizado"],"Jesus usa o nome divino de Êx 3.14; por isso quiseram apedrejá-lo."],
+[9,"9.2-3","Por que o homem nasceu cego, segundo Jesus?","Para que nele se manifestassem as obras de Deus",["Por causa do pecado dos pais","Por causa do seu próprio pecado","Por um castigo sobre Jerusalém"],"Os discípulos haviam perguntado quem pecara.","sinal"],
+[9,"9.7","Em que tanque o cego foi mandado se lavar?","Siloé, que quer dizer “Enviado”",["Betesda","Cedrom","Jacó"],"Jesus fez lodo com saliva e aplicou-o aos olhos do cego.","sinal"],
+[9,"9.22","Por que os pais do cego evitaram responder aos fariseus?","Temiam ser expulsos da sinagoga",["Não conheciam Jesus","Estavam doentes","Tinham sido pagos"],"Por isso disseram: “Idade tem ele; perguntai-lhe a ele”."],
+[9,"9.25","Complete a resposta do ex-cego: “Uma coisa sei…”","eu era cego e agora vejo",["ele é Elias","ele é da Galileia","os fariseus estão errados"],"Testemunho simples diante da pressão dos fariseus."],
+[10,"10.9","Além de “bom pastor”, que outro “Eu Sou” Jesus declarou no capítulo 10?","“Eu sou a porta”",["“Eu sou o caminho”","“Eu sou a videira”","“Eu sou a luz”"],"“Se alguém entrar por mim, será salvo.”","eusou"],
+[10,"10.11","Complete: “Eu sou o bom pastor. O bom pastor…”","dá a vida pelas ovelhas",["conta as ovelhas","busca pastos verdes","afugenta o lobo"],"A morte de Cristo em favor das suas ovelhas.","eusou"],
+[10,"10.28","O que Jesus prometeu sobre as suas ovelhas?","Ninguém as arrebatará da sua mão",["Nunca passarão por aflição","Serão ricas neste mundo","Não precisarão de pastor"],"A segurança e perseverança dos santos: “Eu lhes dou a vida eterna; jamais perecerão”."],
+[10,"10.30","Que declaração levou os judeus a pegar pedras no capítulo 10?","“Eu e o Pai somos um”",["“Eu sou a porta”","“Eu tenho outras ovelhas”","“Destruí este santuário”"],"Acusaram-no de blasfêmia, “porque, sendo homem, te fazes Deus”."],
+[10,"10.22-23","Em que festa Jesus andava no pórtico de Salomão?","Festa da Dedicação",["Festa dos Tabernáculos","Páscoa","Festa das Trombetas"],"Era inverno em Jerusalém."],
+[11,"11.1","Quem eram as irmãs de Lázaro?","Marta e Maria",["Maria e Salomé","Joana e Susana","Marta e Isabel"],"Moravam em Betânia."],
+[11,"11.16","Qual discípulo disse: “Vamos também nós para morrermos com ele”?","Tomé",["Pedro","Filipe","Judas Tadeu"],"Tomé era chamado Dídimo."],
+[11,"11.17","Há quantos dias Lázaro estava no túmulo quando Jesus chegou?","Quatro",["Dois","Três","Sete"],"Marta advertiu: “Senhor, já cheira mal”.","sinal"],
+[11,"11.25","A quem Jesus disse: “Eu sou a ressurreição e a vida”?","A Marta",["A Maria","A Lázaro","A Tomé"],"Marta respondeu: “Eu tenho crido que tu és o Cristo, o Filho de Deus”.","eusou"],
+[11,"11.35","Qual é o versículo mais curto do evangelho?","“Jesus chorou.”",["“Está consumado.”","“Eu sou.”","“Lázaro, vem para fora!”"],"Jesus se comoveu diante do túmulo de Lázaro."],
+[11,"11.49-51","Quem profetizou que convinha que um homem morresse pelo povo?","Caifás, o sumo sacerdote",["Anás","Nicodemos","Pilatos"],"João explica que ele não disse isso de si mesmo."],
+[12,"12.3","Com que Maria ungiu os pés de Jesus em Betânia?","Com bálsamo de nardo puro",["Com azeite de oliva","Com mirra e aloés","Com vinho"],"Enxugou-lhe os pés com os seus cabelos, e a casa encheu-se do perfume."],
+[12,"12.4-6","Quem reclamou do perfume dizendo que poderia ser vendido por trezentos denários?","Judas Iscariotes",["Pedro","Marta","Tomé"],"João observa que ele era ladrão e tirava da bolsa."],
+[12,"12.13-15","Como a multidão recebeu Jesus em Jerusalém?","Com ramos de palmeira, gritando “Hosana!”",["Com trombetas e incenso","Com mantos e ouro","Em silêncio"],"Jesus entrou montado num jumentinho, cumprindo Zc 9.9."],
+[12,"12.20-21","A qual discípulo os gregos pediram: “Senhor, queremos ver Jesus”?","Filipe",["André","Pedro","João"],"Filipe era de Betsaida da Galileia."],
+[12,"12.24","Que imagem Jesus usou para falar da sua morte que dá fruto?","O grão de trigo que cai na terra e morre",["A semente de mostarda","A figueira sem fruto","O fermento na massa"],"“Se morrer, produz muito fruto.”"],
+[13,"13.5","O que Jesus fez aos discípulos durante a ceia?","Lavou-lhes os pés",["Ungiu suas cabeças","Batizou-os","Deu a cada um uma bolsa"],"Um exemplo de serviço humilde."],
+[13,"13.8","Quem disse: “Nunca me lavarás os pés”?","Pedro",["Judas","Tomé","Filipe"],"Jesus respondeu: “Se eu não te lavar, não tens parte comigo”."],
+[13,"13.30","Complete: Judas, tendo recebido o bocado, saiu logo. E…","era noite",["chovia","cantou o galo","o templo tremeu"],"João marca o momento com um detalhe simbólico."],
+[13,"13.34","Qual é o “novo mandamento” que Jesus deu?","Que vos ameis uns aos outros, como ele vos amou",["Que guardeis o sábado","Que vendais tudo","Que jejueis duas vezes por semana"],"“Nisto conhecerão todos que sois meus discípulos” (13.35)."],
+[13,"13.38","O que Jesus predisse a Pedro no final do capítulo 13?","Que o negaria três vezes antes de o galo cantar",["Que seria o primeiro a morrer","Que o trairia por dinheiro","Que escreveria um evangelho"],"Pedro havia dito que daria a vida por ele."],
+[14,"14.2","Complete: “Na casa de meu Pai há muitas…”","moradas",["portas","mesas","ovelhas"],"“Vou preparar-vos lugar.”"],
+[14,"14.5-6","A pergunta de qual discípulo levou Jesus a dizer “Eu sou o caminho, e a verdade, e a vida”?","Tomé",["Filipe","Pedro","Judas Tadeu"],"“Ninguém vem ao Pai senão por mim.”","eusou"],
+[14,"14.8-9","Quem pediu: “Senhor, mostra-nos o Pai, e isso nos basta”?","Filipe",["Tomé","André","Natanael"],"Jesus respondeu: “Quem me vê a mim vê o Pai”."],
+[14,"14.16-17","Como Jesus chama o Espírito que o Pai enviaria?","Outro Consolador, o Espírito da verdade",["O anjo do Senhor","O profeta prometido","O Filho do Homem"],"“Para que esteja para sempre convosco.”"],
+[14,"14.27","Complete: “Deixo-vos a paz, a minha paz vos dou; não vo-la dou…”","como a dá o mundo",["por causa das obras","sem esforço","para sempre"],"“Não se turbe o vosso coração, nem se atemorize.”"],
+[15,"15.1","Qual “Eu Sou” abre o capítulo 15?","“Eu sou a videira verdadeira”",["“Eu sou a porta”","“Eu sou o pão da vida”","“Eu sou o bom pastor”"],"“E meu Pai é o agricultor.”","eusou"],
+[15,"15.5","Complete: “Eu sou a videira, vós, os ramos… porque sem mim…”","nada podeis fazer",["pouco podeis fazer","sereis cortados","secareis"],"Permanecer em Cristo é a fonte de todo fruto."],
+[15,"15.13","Segundo Jesus, qual é o maior amor?","Dar alguém a própria vida em favor dos seus amigos",["Amar os inimigos","Perdoar setenta vezes sete","Dar tudo aos pobres"],"“Vós sois meus amigos, se fazeis o que eu vos mando.”"],
+[15,"15.16","Complete: “Não fostes vós que me escolhestes a mim; pelo contrário…”","eu vos escolhi a vós outros",["o Pai vos rejeitou","vós me seguistes","eu vos chamei servos"],"A eleição soberana, “e vos designei para que vades e deis fruto”."],
+[16,"16.7","Por que Jesus disse que convinha que ele fosse embora?","Se não fosse, o Consolador não viria",["Para escapar dos fariseus","Para que os discípulos descansassem","Para reunir os anjos"],"“Se eu for, eu vo-lo enviarei.”"],
+[16,"16.8","De que o Espírito convenceria o mundo?","Do pecado, da justiça e do juízo",["Da lei, dos profetas e dos salmos","Da fé, da esperança e do amor","Do templo, do sábado e da circuncisão"],"O ministério do Espírito sobre o mundo."],
+[16,"16.21","Que imagem Jesus usou para a tristeza que se converte em alegria?","A mulher que dá à luz",["O semeador que colhe","O pastor que acha a ovelha","O pai que recebe o filho"],"“Já não se lembra da aflição, pelo prazer que tem de ter nascido ao mundo um homem.”"],
+[16,"16.33","Complete: “No mundo, passais por aflições; mas tende bom ânimo…”","eu venci o mundo",["o fim está próximo","o Pai vos ouvirá","isto passará"],"Últimas palavras do discurso de despedida."],
+[17,"17.3","Segundo a oração de Jesus, o que é a vida eterna?","Conhecer o único Deus verdadeiro e Jesus Cristo, a quem ele enviou",["Viver para sempre na terra","Guardar toda a lei","Ver os anjos"],"Início da oração sacerdotal."],
+[17,"17.9","Por quem Jesus diz estar rogando no capítulo 17?","Por aqueles que o Pai lhe deu",["Pelo mundo inteiro","Pelos sacerdotes","Por Jerusalém"],"“Não rogo pelo mundo, mas por aqueles que me deste, porque são teus.”"],
+[17,"17.12","Como Jesus chama o único dos seus que se perdeu?","O filho da perdição",["O filho do trovão","O filho de Belial","O servo infiel"],"“Para que se cumprisse a Escritura.”"],
+[17,"17.17","Complete: “Santifica-os na verdade; a tua palavra…”","é a verdade",["é luz","é vida","permanece"],"A Escritura é o meio de santificação."],
+[17,"17.21","Qual pedido Jesus faz por todos os que haviam de crer?","Que todos sejam um",["Que sejam ricos","Que não sofram","Que sejam tirados do mundo"],"“Como és tu, ó Pai, em mim e eu em ti.”"],
+[18,"18.1","Além de qual ribeiro ficava o jardim onde Jesus foi preso?","Cedrom",["Jordão","Jaboque","Quisom"],"Judas conhecia o lugar."],
+[18,"18.10","Como se chamava o servo cuja orelha Pedro cortou?","Malco",["Barrabás","Alexandre","Cleopas"],"Era servo do sumo sacerdote; Pedro cortou-lhe a orelha direita."],
+[18,"18.13","A quem Jesus foi levado primeiro após a prisão?","A Anás, sogro de Caifás",["A Pilatos","A Herodes","A Caifás"],"Caifás era o sumo sacerdote naquele ano."],
+[18,"18.36","O que Jesus disse a Pilatos sobre o seu reino?","“O meu reino não é deste mundo”",["“O meu reino é Israel”","“O meu reino virá depois de ti”","“O meu reino é o templo”"],"Se fosse, seus ministros se empenhariam por ele."],
+[18,"18.38","Quem perguntou: “Que é a verdade?”","Pilatos",["Caifás","Herodes","Anás"],"Logo depois, declarou não achar nele crime algum."],
+[18,"18.40","Quem o povo pediu que fosse solto no lugar de Jesus?","Barrabás, um salteador",["Malco","Simão Cireneu","Um dos ladrões crucificados"],"Segundo o costume de soltar alguém na Páscoa."],
+[19,"19.5","Com que palavras Pilatos apresentou Jesus coroado de espinhos?","“Eis o homem!”",["“Eis o vosso Deus!”","“Eis o traidor!”","“Eis o profeta!”"],"Jesus vestia um manto de púrpura."],
+[19,"19.19-20","Em quais línguas estava escrito o título na cruz?","Hebraico, latim e grego",["Aramaico, egípcio e grego","Hebraico e latim","Latim, grego e siríaco"],"“JESUS NAZARENO, O REI DOS JUDEUS”."],
+[19,"19.23-24","O que os soldados fizeram com a túnica sem costura?","Lançaram sortes sobre ela",["Rasgaram em quatro partes","Deram a Maria","Queimaram-na"],"Cumprimento do Salmo 22.18."],
+[19,"19.26-27","A quem Jesus confiou sua mãe na cruz?","Ao discípulo a quem ele amava",["A Pedro","A Tiago, seu irmão","A Maria Madalena"],"“Mulher, eis aí teu filho… Eis aí tua mãe.”"],
+[19,"19.30","Quais foram as últimas palavras de Jesus na cruz, segundo João?","“Está consumado!”",["“Pai, perdoa-lhes”","“Tenho sede”","“Hoje estarás comigo no paraíso”"],"A obra da redenção foi plenamente cumprida. (“Tenho sede” vem antes, em 19.28.)"],
+[19,"19.33-34","O que saiu do lado de Jesus quando o soldado o feriu com a lança?","Sangue e água",["Somente sangue","Luz","Nada"],"Não lhe quebraram as pernas, cumprindo a Escritura."],
+[19,"19.38-39","Quem acompanhou José de Arimateia no sepultamento, levando mirra e aloés?","Nicodemos",["Pedro","Lázaro","Simão Cireneu"],"Cerca de cem libras de especiarias."],
+[20,"20.1","Quem foi ao sepulcro de madrugada, no primeiro dia da semana?","Maria Madalena",["Marta","Maria, mãe de Jesus","Salomé"],"Viu que a pedra estava removida."],
+[20,"20.4","Qual discípulo chegou primeiro ao sepulcro?","O outro discípulo, que correu mais que Pedro",["Pedro","Tomé","André"],"Mas foi Pedro quem entrou primeiro."],
+[20,"20.15-16","Com quem Maria Madalena confundiu Jesus ressurreto?","Com o jardineiro",["Com um anjo","Com um soldado","Com Pedro"],"Reconheceu-o quando ele a chamou pelo nome: “Raboni!”"],
+[20,"20.22","O que Jesus fez ao dizer “Recebei o Espírito Santo”?","Soprou sobre eles",["Impôs as mãos","Partiu o pão","Ungiu-os com óleo"],"Era a tarde do primeiro dia da semana."],
+[20,"20.28","Qual foi a confissão de Tomé ao ver o Cristo ressurreto?","“Senhor meu e Deus meu!”",["“Tu és o Profeta!”","“Agora eu vejo!”","“Tu és Elias!”"],"“Bem-aventurados os que não viram e creram.”"],
+[20,"20.31","Qual é o propósito declarado do evangelho de João?","Que creiais que Jesus é o Cristo, o Filho de Deus, e tenhais vida em seu nome",["Registrar a história de Israel","Corrigir os outros evangelhos","Ensinar a lei aos gentios"],"O versículo-chave do livro."],
+[21,"21.1","Em que lugar Jesus se manifestou aos discípulos no capítulo 21?","Junto ao mar de Tiberíades",["No monte das Oliveiras","Em Emaús","No cenáculo"],"Pedro havia dito: “Vou pescar”."],
+[21,"21.11","Quantos grandes peixes havia na rede?","153",["100","144","70"],"E, sendo tantos, a rede não se rompeu.","sinal"],
+[21,"21.9","O que os discípulos encontraram em terra ao chegar do barco?","Um braseiro com peixe e pão",["Uma mesa posta","Um cordeiro assado","Nada"],"“Vinde, comei.”"],
+[21,"21.17","Quantas vezes Jesus perguntou a Pedro “Tu me amas?”","Três",["Duas","Sete","Uma"],"Uma para cada negação; e disse: “Apascenta as minhas ovelhas”."],
+[21,"21.21-22","O que Jesus respondeu quando Pedro perguntou sobre o discípulo amado?","“Que te importa? Quanto a ti, segue-me”",["“Ele morrerá antes de ti”","“Ele escreverá sobre mim”","“Ele será o maior”"],"Cada um segue a Cristo no caminho que ele determina."]
+];
+
+// "Em qual capítulo…?" — [capítulo, referência, pergunta, comentário, tag]
+const CAP = [
+[1,"1.1-18","Em qual capítulo está o prólogo “No princípio era o Verbo”?","O prólogo apresenta o Verbo eterno que se fez carne."],
+[1,"1.29","Em qual capítulo João Batista chama Jesus de “o Cordeiro de Deus”?","No dia seguinte ele repete: “Eis o Cordeiro de Deus!” (1.36)."],
+[1,"1.43-51","Em qual capítulo Jesus chama Filipe e Natanael?","Natanael é visto debaixo da figueira."],
+[2,"2.1-11","Em qual capítulo Jesus transforma água em vinho em Caná?","O primeiro dos sinais.","sinal"],
+[2,"2.13-17","Em qual capítulo Jesus expulsa os cambistas do templo?","“O zelo da tua casa me consumirá.”"],
+[3,"3.1-21","Em qual capítulo Jesus conversa de noite com Nicodemos?","“Importa-vos nascer de novo.”"],
+[3,"3.16","Em qual capítulo está “Porque Deus amou ao mundo de tal maneira…”?","Parte da conversa com Nicodemos."],
+[3,"3.30","Em qual capítulo João Batista diz: “Convém que ele cresça e que eu diminua”?","Último testemunho de João Batista no evangelho."],
+[4,"4.1-42","Em qual capítulo Jesus conversa com a mulher samaritana junto ao poço?","“Deus é espírito.”"],
+[4,"4.46-54","Em qual capítulo Jesus cura o filho de um oficial do rei?","O segundo sinal feito na Galileia.","sinal"],
+[5,"5.1-9","Em qual capítulo Jesus cura o paralítico no tanque de Betesda?","O homem estava enfermo havia 38 anos.","sinal"],
+[5,"5.39","Em qual capítulo Jesus diz que as Escrituras “testificam de mim”?","Parte do discurso sobre o testemunho do Pai e do Filho."],
+[6,"6.1-14","Em qual capítulo Jesus alimenta a multidão com cinco pães e dois peixes?","Sobraram doze cestos.","sinal"],
+[6,"6.16-21","Em qual capítulo Jesus anda sobre o mar?","Logo após a multiplicação dos pães.","sinal"],
+[6,"6.35","Em qual capítulo Jesus diz: “Eu sou o pão da vida”?","Discurso na sinagoga de Cafarnaum.","eusou"],
+[6,"6.68","Em qual capítulo Pedro diz: “Senhor, para quem iremos?”","Muitos discípulos haviam voltado atrás."],
+[7,"7.37-39","Em qual capítulo Jesus clama: “Se alguém tem sede, venha a mim e beba”?","No último dia da Festa dos Tabernáculos."],
+[7,"7.45-52","Em qual capítulo Nicodemos defende Jesus diante dos fariseus?","“Acaso a nossa lei julga um homem sem primeiro ouvi-lo?”"],
+[8,"8.1-11","Em qual capítulo está o relato da mulher surpreendida em adultério?","O trecho começa em 7.53."],
+[8,"8.12","Em qual capítulo Jesus diz: “Eu sou a luz do mundo”?","Declarado no templo, junto ao lugar do gazofilácio (8.20).","eusou"],
+[8,"8.32","Em qual capítulo está “conhecereis a verdade, e a verdade vos libertará”?","Dito aos judeus que haviam crido nele."],
+[8,"8.58","Em qual capítulo Jesus diz: “Antes que Abraão existisse, EU SOU”?","Os judeus pegaram pedras para lhe atirar."],
+[9,"9.1-7","Em qual capítulo Jesus cura o homem cego de nascença?","Ele foi lavar-se no tanque de Siloé.","sinal"],
+[9,"9.25","Em qual capítulo alguém diz: “Uma coisa sei: eu era cego e agora vejo”?","O ex-cego responde aos fariseus."],
+[10,"10.11","Em qual capítulo Jesus diz: “Eu sou o bom pastor”?","“O bom pastor dá a vida pelas ovelhas.”","eusou"],
+[10,"10.28-30","Em qual capítulo Jesus diz que ninguém arrebatará as ovelhas da sua mão?","Seguido de “Eu e o Pai somos um”."],
+[11,"11.38-44","Em qual capítulo Jesus ressuscita Lázaro?","“Lázaro, vem para fora!”","sinal"],
+[11,"11.25","Em qual capítulo Jesus diz: “Eu sou a ressurreição e a vida”?","Dito a Marta, antes de ir ao túmulo.","eusou"],
+[11,"11.35","Em qual capítulo está o versículo “Jesus chorou”?","Diante do túmulo de Lázaro."],
+[12,"12.1-8","Em qual capítulo Maria unge os pés de Jesus em Betânia?","Seis dias antes da Páscoa."],
+[12,"12.12-15","Em qual capítulo Jesus entra em Jerusalém montado num jumentinho?","A multidão clama “Hosana!” com ramos de palmeira."],
+[12,"12.24","Em qual capítulo Jesus fala do grão de trigo que cai na terra e morre?","Resposta à chegada dos gregos que queriam vê-lo."],
+[13,"13.1-17","Em qual capítulo Jesus lava os pés dos discípulos?","Durante a ceia, antes da Páscoa."],
+[13,"13.34","Em qual capítulo Jesus dá o “novo mandamento”?","“Que vos ameis uns aos outros.”"],
+[13,"13.21-30","Em qual capítulo Jesus anuncia que Judas o trairia?","Judas recebe o bocado e sai; “e era noite”."],
+[14,"14.6","Em qual capítulo Jesus diz: “Eu sou o caminho, e a verdade, e a vida”?","Resposta à pergunta de Tomé.","eusou"],
+[14,"14.1-3","Em qual capítulo está “Na casa de meu Pai há muitas moradas”?","“Não se turbe o vosso coração.”"],
+[14,"14.8-9","Em qual capítulo Filipe pede: “Senhor, mostra-nos o Pai”?","“Quem me vê a mim vê o Pai.”"],
+[15,"15.1-8","Em qual capítulo Jesus diz: “Eu sou a videira verdadeira”?","“Sem mim nada podeis fazer.”","eusou"],
+[15,"15.16","Em qual capítulo está “Não fostes vós que me escolhestes a mim”?","A eleição para dar fruto."],
+[15,"15.13","Em qual capítulo está “Ninguém tem maior amor do que este”?","Dar a vida pelos amigos."],
+[16,"16.7-11","Em qual capítulo Jesus diz que o Espírito convenceria o mundo do pecado, da justiça e do juízo?","“Convém-vos que eu vá.”"],
+[16,"16.33","Em qual capítulo está “Tende bom ânimo; eu venci o mundo”?","Encerra o discurso de despedida."],
+[17,"17.1-26","Em qual capítulo está a oração sacerdotal de Jesus?","Jesus ora por si, pelos discípulos e pelos que haviam de crer."],
+[17,"17.17","Em qual capítulo está “Santifica-os na verdade; a tua palavra é a verdade”?","Parte da oração sacerdotal."],
+[18,"18.1-11","Em qual capítulo Jesus é preso no jardim e Pedro corta a orelha de Malco?","Além do ribeiro Cedrom."],
+[18,"18.15-27","Em qual capítulo Pedro nega Jesus três vezes?","No pátio do sumo sacerdote; então o galo cantou."],
+[18,"18.33-38","Em qual capítulo Pilatos pergunta: “Que é a verdade?”","“O meu reino não é deste mundo.”"],
+[19,"19.16-30","Em qual capítulo Jesus é crucificado e diz “Está consumado!”?","A obra da redenção cumprida."],
+[19,"19.26-27","Em qual capítulo Jesus confia sua mãe ao discípulo amado?","“Mulher, eis aí teu filho.”"],
+[19,"19.38-42","Em qual capítulo José de Arimateia e Nicodemos sepultam Jesus?","Num sepulcro novo, num jardim."],
+[20,"20.11-18","Em qual capítulo Jesus ressurreto aparece a Maria Madalena?","Ela o confunde com o jardineiro."],
+[20,"20.24-29","Em qual capítulo Tomé confessa: “Senhor meu e Deus meu!”?","Oito dias depois da primeira aparição."],
+[20,"20.30-31","Em qual capítulo João declara o propósito do seu livro?","“Para que creiais que Jesus é o Cristo.”"],
+[21,"21.1-11","Em qual capítulo acontece a pesca dos 153 grandes peixes?","Junto ao mar de Tiberíades.","sinal"],
+[21,"21.15-17","Em qual capítulo Jesus pergunta três vezes a Pedro: “Tu me amas?”","“Apascenta as minhas ovelhas.”"]
+];
+
+// "Qual destes eventos acontece no capítulo X?" — [capítulo, referência, evento]
+const EVT = [
+[1,"1.1-18","O prólogo: “No princípio era o Verbo”"],
+[1,"1.29","João Batista chama Jesus de “o Cordeiro de Deus”"],
+[1,"1.43-51","Jesus chama Filipe e Natanael"],
+[2,"2.1-11","Jesus transforma água em vinho em Caná"],
+[2,"2.13-17","Jesus expulsa os cambistas do templo"],
+[3,"3.1-21","Jesus conversa de noite com Nicodemos"],
+[3,"3.30","João Batista diz: “Convém que ele cresça e que eu diminua”"],
+[4,"4.1-42","Jesus conversa com a mulher samaritana junto ao poço"],
+[4,"4.46-54","Jesus cura o filho de um oficial do rei"],
+[5,"5.1-9","Jesus cura um paralítico no tanque de Betesda"],
+[5,"5.39","Jesus diz que as Escrituras testificam dele"],
+[6,"6.1-14","Jesus alimenta cinco mil com cinco pães e dois peixes"],
+[6,"6.16-21","Jesus anda sobre o mar"],
+[6,"6.35","Jesus diz: “Eu sou o pão da vida”"],
+[6,"6.68","Pedro diz: “Senhor, para quem iremos?”"],
+[7,"7.37-39","Jesus clama: “Se alguém tem sede, venha a mim e beba”"],
+[7,"7.45-52","Nicodemos defende Jesus diante dos fariseus"],
+[8,"8.1-11","A mulher surpreendida em adultério é levada a Jesus"],
+[8,"8.12","Jesus diz: “Eu sou a luz do mundo”"],
+[8,"8.58","Jesus diz: “Antes que Abraão existisse, EU SOU”"],
+[9,"9.1-7","Jesus cura um homem cego de nascença"],
+[9,"9.25","Um homem diz: “Eu era cego e agora vejo”"],
+[10,"10.11","Jesus diz: “Eu sou o bom pastor”"],
+[10,"10.30","Jesus diz: “Eu e o Pai somos um”"],
+[11,"11.38-44","Jesus ressuscita Lázaro"],
+[11,"11.25","Jesus diz a Marta: “Eu sou a ressurreição e a vida”"],
+[11,"11.49-52","Caifás profetiza que um homem morreria pelo povo"],
+[12,"12.1-8","Maria unge os pés de Jesus com nardo em Betânia"],
+[12,"12.12-15","Jesus entra em Jerusalém montado num jumentinho"],
+[12,"12.20-24","Gregos pedem para ver Jesus"],
+[13,"13.1-17","Jesus lava os pés dos discípulos"],
+[13,"13.34","Jesus dá o novo mandamento de amor"],
+[13,"13.21-30","Jesus anuncia que Judas o trairia"],
+[14,"14.6","Jesus diz: “Eu sou o caminho, e a verdade, e a vida”"],
+[14,"14.8-9","Filipe pede: “Senhor, mostra-nos o Pai”"],
+[15,"15.1-8","Jesus diz: “Eu sou a videira verdadeira”"],
+[15,"15.16","Jesus diz: “Não fostes vós que me escolhestes a mim”"],
+[16,"16.7-11","Jesus promete que o Espírito convencerá o mundo do pecado"],
+[16,"16.33","Jesus diz: “Tende bom ânimo; eu venci o mundo”"],
+[17,"17.1-26","Jesus faz a oração sacerdotal"],
+[17,"17.17","Jesus ora: “Santifica-os na verdade”"],
+[18,"18.1-11","Jesus é preso e Pedro corta a orelha de Malco"],
+[18,"18.15-27","Pedro nega Jesus três vezes"],
+[18,"18.38","Pilatos pergunta: “Que é a verdade?”"],
+[19,"19.16-30","Jesus é crucificado e diz: “Está consumado!”"],
+[19,"19.26-27","Jesus confia sua mãe ao discípulo amado"],
+[19,"19.38-42","José de Arimateia e Nicodemos sepultam Jesus"],
+[20,"20.11-18","Jesus ressurreto aparece a Maria Madalena"],
+[20,"20.24-29","Tomé confessa: “Senhor meu e Deus meu!”"],
+[20,"20.30-31","João declara o propósito do seu livro"],
+[21,"21.1-11","A pesca dos 153 grandes peixes"],
+[21,"21.15-17","Jesus pergunta três vezes a Pedro: “Tu me amas?”"]
+];
+
+const Q = RAW.map((r,i)=>({id:"j"+r[0]+"-"+r[1]+"-"+i, kind:"conteudo", ch:r[0], ref:r[1], q:r[2], a:r[3], w:r[4], note:r[5], tag:r[6]||""}))
+  .concat(CAP.map((r,i)=>({id:"c"+r[0]+"-"+r[1]+"-"+i, kind:"cap", ch:r[0], ref:r[1], q:r[2], a:"Capítulo "+r[0], w:null, note:r[3], tag:r[4]||""})))
+  .concat(EVT.map((r,i)=>({id:"e"+r[0]+"-"+r[1]+"-"+i, kind:"evt", ch:r[0], ref:r[1], q:`Qual destes eventos acontece no capítulo ${r[0]}?`, a:r[2], w:null, note:`Os outros eventos estão em outros capítulos. Este está em Jo ${r[1]}.`, tag:""})));
+
+// alternativas erradas para "Qual evento": eventos de capítulos próximos, cada um de um capítulo diferente
+function evtWrong(ch){
+  const chs=[]; for(let d=-4; d<=4; d++){ const c=ch+d; if(d && c>=1 && c<=21) chs.push(c); }
+  return shuffle(chs).slice(0,3).map(c=>{ const opts=EVT.filter(e=>e[0]===c); return {t:opts[Math.floor(Math.random()*opts.length)][2], ch:c}; });
+}
+
+// alternativas erradas para "Em qual capítulo": capítulos próximos, para ficar desafiador
+function capWrong(ch){
+  const near=[]; for(let d=-4; d<=4; d++){ const c=ch+d; if(d && c>=1 && c<=21) near.push(c); }
+  return shuffle(near).slice(0,3).map(c=>"Capítulo "+c);
+}
+const $ = s=>document.querySelector(s);
+
+// ---- progress (per browser) ----
+let P = {s:{}, best:0, sel:null};
+try{ const raw = localStorage.getItem("memjoao"); if(raw) P = Object.assign(P, JSON.parse(raw)); }catch(e){}
+function save(){ try{ localStorage.setItem("memjoao", JSON.stringify(P)); }catch(e){} }
+const st = id => P.s[id] || (P.s[id]={r:0,w:0,last:0});
+const mastered = q => { const s=P.s[q.id]; return s && s.last===1; };
+
+let selected = new Set(Array.isArray(P.sel)&&P.sel.length ? P.sel : [1,2,3]);
+
+function renderHome(){
+  const g=$("#grid"); g.innerHTML="";
+  for(let c=1;c<=21;c++){
+    const qs=Q.filter(q=>q.ch===c), m=qs.filter(mastered).length, pct=Math.round(m/qs.length*100);
+    const b=document.createElement("button");
+    b.className="ch"+(selected.has(c)?" on":"");
+    b.setAttribute("aria-pressed", selected.has(c));
+    b.setAttribute("aria-label", `Capítulo ${c}, ${m} de ${qs.length} dominadas`);
+    b.innerHTML=`<span class="fill" style="height:${pct}%"></span><span class="n">${c}</span><span class="p">${m}/${qs.length}</span>`;
+    b.onclick=()=>{ selected.has(c)?selected.delete(c):selected.add(c); P.sel=[...selected]; save(); renderHome(); };
+    g.appendChild(b);
+  }
+  const nSel=byKind(Q.filter(q=>selected.has(q.ch))).length;
+  const chs=[...selected].sort((a,b)=>a-b);
+  $("#selInfo").textContent = chs.length ? `${chs.length===21?"Todos":"Cap. "+compact(chs)} · ${nSel} perguntas` : "Nenhum capítulo selecionado";
+  $("#playSel").disabled = !chs.length;
+  const wrong=byKind(Q.filter(q=>P.s[q.id] && P.s[q.id].last===-1)).length;
+  $("#wrongInfo").textContent = wrong ? `${wrong} pergunta${wrong>1?"s":""} errada${wrong>1?"s":""} na última tentativa` : "Nenhum erro pendente";
+  $("#playWrong").disabled = !wrong;
+  $("#stMastered").textContent=Q.filter(mastered).length;
+  $("#stTotal").textContent=Q.length;
+  $("#stBest").textContent=P.best||0;
+}
+function compact(a){ // [1,2,3,5] -> "1–3, 5"
+  const out=[]; let s=a[0], p=a[0];
+  for(let i=1;i<=a.length;i++){ if(a[i]===p+1){p=a[i];continue;} out.push(s===p?s:`${s}–${p}`); s=p=a[i]; }
+  return out.join(", ");
+}
+
+// ---- round ----
+let round=null, lastPool=null;
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function priority(q){ const s=P.s[q.id]; if(!s) return 1; if(s.last===-1) return 0; return 2; } // erros, novas, dominadas
+function byKind(pool){ const k=$("#kind").value; return k==="all" ? pool : pool.filter(q=>q.kind===k); }
+function start(pool){
+  pool=byKind(pool);
+  if(!pool.length){ show("home"); return; }
+  lastPool=pool;
+  const size=+$("#size").value;
+  let list=shuffle(pool).sort((x,y)=>priority(x)-priority(y));
+  if(size) list=list.slice(0,size);
+  list=shuffle(list);
+  round={list, i:0, score:0, streak:0, missed:[], answered:false, order:[]};
+  show("quiz"); ask();
+}
+function ask(){
+  const q=round.list[round.i];
+  round.answered=false;
+  round.order = q.kind==="cap"
+    ? [q.a, ...capWrong(q.ch)].sort((x,y)=>parseInt(x.slice(9))-parseInt(y.slice(9)))
+    : q.kind==="evt"
+    ? (round.evtOthers = evtWrong(q.ch), shuffle([q.a, ...round.evtOthers.map(o=>o.t)]))
+    : shuffle([q.a,...q.w]);
+  $("#qChap").textContent = q.kind==="cap" ? "Em qual capítulo?" : q.kind==="evt" ? `Qual evento? · João ${q.ch}` : `João ${q.ch}`;
+  $("#qCount").textContent=`${round.i+1} / ${round.list.length}`;
+  $("#qBar").style.width=(round.i/round.list.length*100)+"%";
+  $("#qText").textContent=q.q;
+  const box=$("#qOpts"); box.innerHTML="";
+  round.order.forEach((t,k)=>{
+    const b=document.createElement("button"); b.className="opt"; b.id="opt"+k;
+    b.innerHTML=`<span class="k">${k+1}</span><span></span>`; b.lastChild.textContent=t;
+    b.onclick=()=>answer(k); box.appendChild(b);
+  });
+  $("#qFeed").hidden=true; $("#next").hidden=true;
+  $("#qStreak").textContent = round.streak>=2 ? `Sequência: ${round.streak}` : "";
+  box.firstChild.focus({preventScroll:true});
+}
+function answer(k){
+  if(round.answered) return; round.answered=true;
+  const q=round.list[round.i], ok=round.order[k]===q.a, s=st(q.id);
+  [...$("#qOpts").children].forEach((b,j)=>{
+    b.disabled=true;
+    if(round.order[j]===q.a) b.classList.add("right");
+    else if(j===k) b.classList.add("wrong");
+    else b.classList.add("dim");
+  });
+  if(ok){ round.score++; round.streak++; s.r++; s.last=1; P.best=Math.max(P.best||0, round.streak); }
+  else { round.streak=0; s.w++; s.last=-1; round.missed.push(q); }
+  save();
+  const v=$("#qVerdict"); v.className="verdict "+(ok?"ok":"no");
+  v.textContent= ok ? pick(["Isso mesmo!","Correto!","Muito bem!","Exato!"]) : "Não foi dessa vez.";
+  $("#qRef").textContent="Jo "+q.ref;
+  $("#qNote").textContent = q.kind==="evt"
+    ? "Os outros: " + round.evtOthers.slice().sort((x,y)=>x.ch-y.ch).map(o=>`${o.t} (cap. ${o.ch})`).join("; ") + "."
+    : q.note;
+  $("#qFeed").hidden=false;
+  $("#qStreak").textContent = round.streak>=2 ? `Sequência: ${round.streak}` : "";
+  const n=$("#next"); n.hidden=false; n.textContent = round.i===round.list.length-1 ? "Ver resultado" : "Próxima"; n.focus({preventScroll:true});
+}
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function next(){
+  if(round.i<round.list.length-1){ round.i++; ask(); } else finish();
+}
+function finish(){
+  const n=round.list.length, s=round.score, pct=Math.round(s/n*100);
+  $("#rTitle").textContent=`${s} de ${n} acertos`;
+  $("#rSub").textContent = pct===100 ? "Perfeito! “A tua palavra é a verdade.” (Jo 17.17)"
+    : pct>=70 ? "Muito bom. Revise as que faltaram e tente de novo."
+    : "Continue praticando: as perguntas erradas voltam primeiro na próxima rodada.";
+  const ul=$("#rReview"); ul.innerHTML="";
+  round.missed.forEach(q=>{
+    const li=document.createElement("li");
+    li.innerHTML=`<span class="ref"></span><span></span><span class="a"></span>`;
+    li.children[0].textContent="Jo "+q.ref; li.children[1].textContent=q.q; li.children[2].textContent=q.a;
+    ul.appendChild(li);
+  });
+  $("#rReviewWrap").hidden=!round.missed.length;
+  round=null; show("results");
+}
+function show(id){
+  ["home","quiz","results"].forEach(s=>$("#"+s).hidden = s!==id);
+  if(id==="home") renderHome();
+  window.scrollTo({top:0});
+}
+
+$("#selAll").onclick=()=>{ selected=new Set(Array.from({length:21},(_,i)=>i+1)); P.sel=[...selected]; save(); renderHome(); };
+$("#selNone").onclick=()=>{ selected.clear(); P.sel=[]; save(); renderHome(); };
+$("#playSel").onclick=()=>start(Q.filter(q=>selected.has(q.ch)));
+$("#playAll").onclick=()=>start(Q);
+$("#playEuSou").onclick=()=>start(Q.filter(q=>q.tag==="eusou"||q.tag==="sinal"));
+$("#playWrong").onclick=()=>start(Q.filter(q=>P.s[q.id]&&P.s[q.id].last===-1));
+$("#next").onclick=next;
+$("#quit").onclick=()=>{ round=null; show("home"); };
+$("#again").onclick=()=>start(lastPool && lastPool.length ? lastPool.filter(q=>Q.includes(q)) : Q);
+$("#home2").onclick=()=>show("home");
+$("#reset").onclick=()=>{ $("#resetConfirm").hidden=false; };
+$("#resetNo").onclick=()=>{ $("#resetConfirm").hidden=true; };
+$("#resetYes").onclick=()=>{ P={s:{},best:0,sel:[...selected]}; save(); $("#resetConfirm").hidden=true; renderHome(); };
+try{ const sz=localStorage.getItem("memjoao-size"); if(sz) $("#size").value=sz; }catch(e){}
+$("#size").onchange=e=>{ try{localStorage.setItem("memjoao-size", e.target.value);}catch(err){} };
+try{ const kd=localStorage.getItem("memjoao-kind"); if(kd) $("#kind").value=kd; }catch(e){}
+$("#kind").onchange=e=>{ try{localStorage.setItem("memjoao-kind", e.target.value);}catch(err){} renderHome(); };
+
+document.addEventListener("keydown",e=>{
+  if($("#quiz").hidden || !round) return;
+  if(!round.answered && ["1","2","3","4"].includes(e.key)){ e.preventDefault(); answer(+e.key-1); }
+  else if(round.answered && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); next(); }
+});
+
+renderHome();
+</script>
+
+</body></html>
